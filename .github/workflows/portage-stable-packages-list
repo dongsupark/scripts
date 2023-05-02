@@ -98,6 +98,7 @@ app-eselect/eselect-lua
 
 app-portage/portage-utils
 
+app-shells/bash
 app-shells/bash-completion
 
 app-text/asciidoc
@@ -368,6 +369,7 @@ sys-libs/binutils-libs
 sys-libs/libcap
 sys-libs/libcap-ng
 sys-libs/libseccomp
+sys-libs/readline
 sys-libs/zlib
 
 virtual/libcrypt
