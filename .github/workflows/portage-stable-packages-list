@@ -97,6 +97,7 @@ app-eselect/eselect-iptables
 
 app-portage/portage-utils
 
+app-shells/bash
 app-shells/bash-completion
 
 app-text/asciidoc
