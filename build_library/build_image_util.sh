@@ -839,6 +839,32 @@ EOF
   # Backup the /etc contents to /usr/share/flatcar/etc to serve as source
   # for creating missing files
   sudo cp -a "${root_fs_dir}/etc" "${root_fs_dir}/usr/share/flatcar/etc"
+  # Retarget all the symlinks under /usr that point to entries under
+  # /etc to entries under /usr/share/flatcar/etc. The retargetting is
+  # not done for symlinks inside /usr/share/flatcar/etc. This only
+  # should affect compatibility symlinks like /usr/share/bash/bashrc.
+  local link
+  while read -r -d'' link; do
+      old_target=$(readlink "${link}")
+      target="${old_target}"
+      if [[ "${target}" = /* ]]; then
+          if [[ "${target}" = /etc/* ]]; then
+              target="/usr/share/flatcar${target}"
+              echo "Retargetting ${link} from ${old_target} to ${target}"
+              ln -sfT "${target}" "${link}"
+          fi
+      else
+          target="${link%/*}/${target}"
+          # Do not expand symlinks.
+          target=$(realpath --no-symlinks "${target}")
+          if [[ "${target}" = "${root_fs_dir}/etc/"* ]]; then
+              # Create relative link.
+              echo "Retargetting ${link} from ${old_target} to ${target} (will be relative to link)"
+              ln -sfTr "${target}" "${link}"
+          fi
+      fi
+  done < <(sudo find "${root_fs_dir}/usr" -type -l -not -wholename "${root_fs_dir}/usr/share/flatcar/etc/*" -print0)
+
   # Remove the rootfs state as it should be recreated through the
   # tmpfiles and may not be present on updating machines. This
   # makes sure our tests cover the case of missing files in the
