@@ -17,3 +17,20 @@ RDEPEND="
 	sys-libs/glibc
 	sys-libs/nss-usrfiles
 "
+
+S="${WORKDIR}"
+
+src_compile() {
+    touch "${T}/empty-file"
+}
+
+src_install() {
+    # This is here only to avoid failures due to dangling symlinks
+    # from ~core directory. Can't do it in manglefs - it's called too
+    # late.
+    local file
+    insinto /usr/share/skel
+    for file in .bash{_logout,_profile,rc}; do
+        newins "${T}/empty-file" "${file}"
+    done
+}
