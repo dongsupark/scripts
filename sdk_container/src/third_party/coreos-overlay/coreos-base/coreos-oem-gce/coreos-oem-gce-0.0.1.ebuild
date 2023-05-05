@@ -17,3 +17,12 @@ RDEPEND="
 	sys-libs/glibc
 	sys-libs/nss-usrfiles
 "
+
+S="${WORKDIR}"
+
+src_install() {
+    # This is here only to avoid failures due to dangling symlinks
+    # from ~core directory. Can't do it in manglefs - it's called too
+    # late.
+    touch "${ED}/usr/share/skel/.bash"{_logout,_profile,rc}
+}
