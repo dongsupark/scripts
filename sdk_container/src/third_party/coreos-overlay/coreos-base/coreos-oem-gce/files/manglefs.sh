@@ -49,12 +49,6 @@ password optional pam_permit.so
 session optional pam_permit.so
 EOF
 
-# Fix dangling bash symlinks in core home directory
-for f in .bash{_logout,_profile,rc}; do
-    rm -f "home/core/${f}"
-    cp -a "etc/skel/${f}" "home/core/${f}"
-done
-
 # Don't bundle these paths, since they are useless to us.
 mv usr/lib/systemd/lib*.so* usr/lib64/
 rm -fr boot etc/* usr/lib/systemd var/db/pkg
