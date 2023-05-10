@@ -842,7 +842,7 @@ EOF
   # files, so we remove nothing important. There shouldn't be any
   # symlinks either. Add "! -type d" to exclude directories as "stat"
   # usually returns a size of a directory being 4096 or so.
-  if [[ $(sudo find "${root_fs_dir}/usr/share/flatcar/etc" -size +0 ! -type d 2>/dev/null) -gt 0 ]]; then
+  if [[ $(sudo find "${root_fs_dir}/usr/share/flatcar/etc" -size +0 ! -type d 2>/dev/null | wc -l) -gt 0 ]]; then
     die "Unexpected non-empty files in ${root_fs_dir}/usr/share/flatcar/etc"
   fi
   sudo rm -rf "${root_fs_dir}/usr/share/flatcar/etc"
