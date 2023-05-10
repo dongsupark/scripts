@@ -54,7 +54,8 @@ src_install() {
         target=${compat_symlinks["${link}"]}
         dosym -r "${target}" "${link}"
         if [[ "${target}" = /usr/share/flatcar/etc/* ]]; then
-            newins "${T}/empty-file" "${target}"
+            insinto "${target%/*}"
+            newins "${T}/empty-file" "${target##*/}"
         fi
     done
 }
