@@ -93,7 +93,10 @@ function _vm_build_impl() {
     formats="$*"
     if echo "$formats" | tr ' ' '\n' | grep -q '^vmware'; then
       formats=$(echo "$formats" | tr ' ' '\n' | sed '/vmware.*/d')
-      formats+=" vmware vmware_insecure vmware_ova vmware_raw"
+      formats+=" vmware vmware_raw"
+      if [ "${arch}" = 'amd64' ]; then
+        formats+=" vmware_insecure vmware_ova"
+      fi
     fi
     if echo "$formats" | tr ' ' '\n' | grep -q -P '^(ami|aws)'; then
       formats=$(echo "$formats" | tr ' ' '\n' | sed '/ami.*/d' | sed '/aws/d')
