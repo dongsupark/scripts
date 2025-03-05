@@ -330,6 +330,7 @@ PATCHES=(
 	"${FILESDIR}"/0001-Revert-remove-cl-legacy-feature.patch
 	"${FILESDIR}"/0002-util-cmdline-Handle-the-cmdline-flags-as-list-of-sup.patch
 	"${FILESDIR}"/0003-Cargo-reduce-binary-size-for-release-profile.patch
+	"${FILESDIR}"/0004-build-deps-bump-openssl-from-0.10.66-to-0.10.70.patch
 )
 
 src_unpack() {
